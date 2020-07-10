@@ -34,6 +34,6 @@ output device. To adjust volume install the `pulsemixer` program and adjust the 
 output to.
 
 # Sources #
-The supplied song can be found: [Here](https://www.youtube.com/watch?v=BwR8LOWZ1hg)
-[FFmpeg](https://ffmpeg.org)
-[PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/)
+* The supplied song can be found: [Here](https://www.youtube.com/watch?v=BwR8LOWZ1hg)
+* [FFmpeg](https://ffmpeg.org)
+* [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/)
