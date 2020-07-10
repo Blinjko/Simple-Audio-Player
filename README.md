@@ -15,6 +15,7 @@ might not build, they are stated below.
 * The program failed to link because the libraries needed not found because, they are named differently, in a different location, or not installed.
 * The program failed to compile because the compiler could not find the needed header files, this can happen because, they are named differently, placed in a 
 different location, or not installed.
+
 For a reference the header file locations on my computer are:
 * `/usr/include/pulse/simple.h` For the pulsemixer header
 * `/usr/include/libavformat/avforamt.h` For FFmpeg libavformat header
@@ -33,6 +34,6 @@ output device. To adjust volume install the `pulsemixer` program and adjust the 
 output to.
 
 # Sources #
-The supplied song can be found: [Here] https://www.youtube.com/watch?v=BwR8LOWZ1hg
-[FFmpeg] https://ffmpeg.org
-[PulseAudio] https://www.freedesktop.org/wiki/Software/PulseAudio/
+The supplied song can be found: [Here](https://www.youtube.com/watch?v=BwR8LOWZ1hg)
+[FFmpeg](https://ffmpeg.org)
+[PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/)
