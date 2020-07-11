@@ -37,6 +37,7 @@ enum Return_Status
 };
 #endif
 
+// SEE "ffmpeg_decoder.cpp" for comments on functions //
 
 class FFmpeg_Decoder
 {
