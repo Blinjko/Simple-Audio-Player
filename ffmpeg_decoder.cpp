@@ -44,7 +44,7 @@ extern "C"
 /* FFmpeg_Decoder Class constructor
  * @param filename, the file to be opened
  * @param media_type, the media type to be decoded EX: AVMEDIA_TYPE_AUIDO for audio
- * NOTE: This constructor only sets varialbes and does not initialize the decoder
+ * @note This constructor only sets varialbes and does not initialize the decoder
  */
 FFmpeg_Decoder::FFmpeg_Decoder(const std::string& filename, enum AVMediaType media_type) : 
     m_filename{filename}, m_media_type{media_type}
@@ -61,8 +61,8 @@ FFmpeg_Decoder::FFmpeg_Decoder(const std::string& filename, enum AVMediaType med
 /* FFmpeg_Decoder Class constructor 2
  * @param filename, the file to be opened,
  * @param media_type, the media type to be decoded, EX: AVMEDIA_TYPE_VIDEO for video
- * NOTE: This constructor only sets variables and does not initialize the decoder
- * NOTE: The difference in this constructor is that it takes a "const char*" vs a "std::string"
+ * @note This constructor only sets variables and does not initialize the decoder
+ * @note The difference in this constructor is that it takes a "const char*" vs a "std::string"
  */
 FFmpeg_Decoder::FFmpeg_Decoder(const char* filename, enum AVMediaType media_type) : FFmpeg_Decoder(std::string{filename}, media_type)
 {}
@@ -71,7 +71,7 @@ FFmpeg_Decoder::FFmpeg_Decoder(const char* filename, enum AVMediaType media_type
 
 
 /* FFmpeg_Decoder Class destructor
- * Frees data and resources that require freeing
+ * @desc Frees data and resources that require freeing
  */
 FFmpeg_Decoder::~FFmpeg_Decoder()
 {
@@ -82,8 +82,8 @@ FFmpeg_Decoder::~FFmpeg_Decoder()
 
 
 /* FFmpeg_Decoder::open_file function
- * Opens the file passed to the constructor, m_filename, and initializes m_format_ctx
- * Returns Return_Status::STATUS_SUCCESS on successful execution, and Return_Status::STATUS_FAILURE on failure
+ * @desc Opens the file passed to the constructor, m_filename, and initializes m_format_ctx
+ * @return Return_Status::STATUS_SUCCESS on successful execution, and Return_Status::STATUS_FAILURE on failure
  */
 Return_Status FFmpeg_Decoder::open_file()
 {
@@ -133,9 +133,9 @@ Return_Status FFmpeg_Decoder::open_file()
 
 
 /* FFmpeg_Decoder::init() function, initializes the decoder
- * This function must only be called after FFmpeg_Decoder::open_file() has been called.
- * This function allocates, and initializes m_codec_ctx for decoding.
- * Returns Return_Status::STATUS_SUCCESS on successful execution, and Return_Status::STATUS_FAILURE on failure
+ * @note This function must only be called after FFmpeg_Decoder::open_file() has been called.
+ * @desc This function allocates, and initializes m_codec_ctx for decoding.
+ * @return Return_Status::STATUS_SUCCESS on successful execution, and Return_Status::STATUS_FAILURE on failure
  */
 Return_Status FFmpeg_Decoder::init()
 {
@@ -200,8 +200,8 @@ Return_Status FFmpeg_Decoder::init()
 
 
 /* FFmpeg_Decoder::drain() function, drains the decoder
- * Returns Return_Status::STATUS_SUCCESS on successful drain and
- * Return_Status::STATUS_FAILURE on an unsuccessful drain.
+ * @return Return_Status::STATUS_SUCCESS on successful drain and
+ * @return Return_Status::STATUS_FAILURE on an unsuccessful drain.
  */
 Return_Status FFmpeg_Decoder::drain()
 {
@@ -240,11 +240,11 @@ Return_Status FFmpeg_Decoder::drain()
 
 
 /* FFmpeg_Decoder::reset() function, resets the FFmpeg_Decoder Class
- * This function will free all resources allocated and reset the class as if it were just initialized
+ * @desc This function will free all resources allocated and reset the class as if it were just initialized
  * @param filename, the file to be opened
  * @param media_type, the media type to be decoded EX: AVMEDIA_TYPE_AUDIO
- * NOTE: This function uninitializes the decoder, so the functions FFmpeg_Decoder::open_file(), and
- * FFmpeg_Decoder::init() must be called again before the decoder is used.
+ * @note This function uninitializes the decoder, so the functions FFmpeg_Decoder::open_file(), and
+ * @note FFmpeg_Decoder::init() must be called again before the decoder is used.
  */
 void FFmpeg_Decoder::reset(const std::string &filename, enum AVMediaType media_type)
 {
@@ -287,12 +287,12 @@ void FFmpeg_Decoder::reset(const std::string &filename, enum AVMediaType media_t
 
 
 /* FFmpeg_Decoder::decode_frame() function, decodes a frame and returns it
- * This function decodes a frame of the passed AVMediaType
- * Returns a pointer to an AVFrame on success, nullptr on failure or end of file
- * TO CHECK if the end of the file has been reached call FFmepg_Decoder::end_of_file_reached()
- * NOTE: Data referenced by the retured pointer is the same data referenced by m_frame,
- * SO DO NOT av_frame_unref() OR av_frame_free() the returned AVFrame, this will mess up the decoder.
- * NOTE: Next time this function is called, the previously returned AVFrame* will be invalid, so do your operations accordingly
+ * @desc This function decodes a frame of the passed AVMediaType
+ * @return pointer to an AVFrame on success, nullptr on failure or end of file
+ * @note TO CHECK if the end of the file has been reached call FFmepg_Decoder::end_of_file_reached()
+ * @note Data referenced by the retured pointer is the same data referenced by m_frame,
+ * @note SO DO NOT av_frame_unref() OR av_frame_free() the returned AVFrame, this will mess up the decoder.
+ * @note Next time this function is called, the previously returned AVFrame* will be invalid, so do your operations accordingly
  */
 AVFrame *FFmpeg_Decoder::decode_frame()
 {
@@ -330,9 +330,9 @@ AVFrame *FFmpeg_Decoder::decode_frame()
 
 
 /* FFmpeg_Decoder::poll_error() function, returns a string error message
- * Returns a std::string if the queue, m_errors has any, and returned an empty std::string if the queue is empty
- * NOTE: When functions like FFmpeg_Decoder::init(), encounter errors they will enqueue, 
- * an error message or 2 onto m_errors, to get them use this function.
+ * @return std::string if the queue (m_errors) has any, and returned an empty std::string if the queue is empty
+ * @note When functions like FFmpeg_Decoder::init(), encounter errors they will enqueue, 
+ * @note an error message or 2 onto m_errors, to get them use this function.
  */
 std::string FFmpeg_Decoder::poll_error()
 {
@@ -350,8 +350,8 @@ std::string FFmpeg_Decoder::poll_error()
 
 
 /* FFmpeg_Decoder::get_format_context() function
- * Returns m_fmt_ctx, a AVFormatContext*
- * NOTE: this function will return nullptr if FFmpeg_Decoder::open_file() hasn't been called.
+ * @return m_fmt_ctx, a AVFormatContext*
+ * @note this function will return nullptr if FFmpeg_Decoder::open_file() hasn't been called.
  */
 AVFormatContext *FFmpeg_Decoder::get_format_context()
 {
@@ -362,8 +362,8 @@ AVFormatContext *FFmpeg_Decoder::get_format_context()
 
 
 /* FFmpeg_Decoder::get_codec_context() function
- * Returns m_codec_ctx, a AVCodecContext*
- * NOTE: this function will return nullptr if FFmpeg_Decoder::init() has not been called.
+ * @return m_codec_ctx, a AVCodecContext*
+ * @note this function will return nullptr if FFmpeg_Decoder::init() has not been called.
  */
 AVCodecContext *FFmpeg_Decoder::get_codec_context()
 {
@@ -374,7 +374,7 @@ AVCodecContext *FFmpeg_Decoder::get_codec_context()
 
 
 /* FFmpeg_Decoder::get_media_type() function
- * Returns m_media_type, a enum AVMediaType
+ * @return m_media_type, a enum AVMediaType
  */
 enum AVMediaType FFmpeg_Decoder::get_media_type()
 {
@@ -385,7 +385,7 @@ enum AVMediaType FFmpeg_Decoder::get_media_type()
 
 
 /* FFmpeg_Decoder::get_filename() function
- * Returns m_filename, a std::string
+ * @return m_filename, a std::string
  */
 std::string FFmpeg_Decoder::get_filename()
 {
@@ -396,7 +396,7 @@ std::string FFmpeg_Decoder::get_filename()
 
 
 /* FFmpeg_Decoder::end_of_file_reached() function
- * Returns m_end_of_file, which indicates weather the end of file has been reached (true) or not (false)
+ * @return m_end_of_file, which indicates weather the end of file has been reached (true) or not (false)
  */
 bool FFmpeg_Decoder::end_of_file_reached()
 {
@@ -407,10 +407,10 @@ bool FFmpeg_Decoder::end_of_file_reached()
 
 
 /* FFmpeg_Decoder::decoder_fill() function
- * Fills the decoder with data, called in FFmpeg_Decoder::decode_frame()
- * Returns Return_Status::STATUS_SUCCESS on success and Return_Status::STATUS_FAILURE on failure
- * NOTE: If the end of file is reached m_end_of_file will be set
- * NOTE: this function is not public, and thus cannot be called.
+ * @desc Fills the decoder with data, called in FFmpeg_Decoder::decode_frame()
+ * @return Return_Status::STATUS_SUCCESS on success and Return_Status::STATUS_FAILURE on failure
+ * @note If the end of file is reached m_end_of_file will be set
+ * @note this function is not public, and thus cannot be called.
  */
 Return_Status FFmpeg_Decoder::decoder_fill()
 {
@@ -467,10 +467,10 @@ Return_Status FFmpeg_Decoder::decoder_fill()
 
 
 /* FFmpeg_Decoder::enqueue_error() function, enqueue an ffmpeg error message given an error code
- * This function takes the passed error code and translates it into an FFmpeg error message
- * which then gets pushed onto the m_errors queue.
+ * @desc This function takes the passed error code and translates it into an FFmpeg error message
+ * @desc which then gets pushed onto the m_errors queue.
  * @param error_code, the error code to translate
- * NOTE: NON public function
+ * @note NON public function
  */
 void FFmpeg_Decoder::enqueue_error(int error_code)
 {
@@ -491,7 +491,7 @@ void FFmpeg_Decoder::enqueue_error(int error_code)
 
 /* FFmpeg_Decoder::enqueue_error() function, enqueue a std::string error message
  * @param message, the std::string message to enqueue to m_errors
- * NOTE: NON public function
+ * @note NON public function
  */
 void FFmpeg_Decoder::enqueue_error(const std::string &message)
 {
