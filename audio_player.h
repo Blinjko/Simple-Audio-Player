@@ -36,6 +36,18 @@ enum Return_Status
 };
 #endif
 
+/* Audio_Player Class
+ * @desc The Audio_Player class utilizes the pulsaudio simple api to play audio from AVFrames
+ * @member m_player - pa_simple* the pulseaudio simple player
+ * @member m_sample_spec - pa_sample_spec* specifications regarding the samples to be played
+ * @member m_sample_format - the format of the samples to be played
+ * @member m_channels - number of audio channels
+ * @member m_sample_rate - the sample rate of the input audio, EX: 48000 Hz
+ * @member m_name - The name of the audio player, for pulseaudio
+ * @member m_stream_name - The name of the stream, for pulseaudio
+ * @member m_errors - a std::queue<std::string> of error messages
+ * @note see audio_player.cpp for comments on functions
+ */
 class Audio_Player
 {
     pa_simple *m_player;
