@@ -30,6 +30,9 @@ For a reference the header file locations on my computer are:
 * `/usr/include/libavcodec/avcodec.h` For FFmpeg libavcodec header
 * `/usr/include/` For C++ standard libary headers
 
+# Supported Formats #
+m4a, mp3, aac, flac, m4b, ogg, oga, opus, ra, rm, tta, webm.
+
 # Usage #
 `./Player <input_file>`
 If the makefile is used the program will be named `Player`, otherwise use whatever you named it. `<input_file>` is the audio file you want to play, for supported formats see
