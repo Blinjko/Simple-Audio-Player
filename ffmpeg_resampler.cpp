@@ -28,7 +28,14 @@ extern "C"
 #include <string>
 #include <queue>
 
-
+/* FFmpeg_Frame_Resampler Constructror
+ * @param out_channel_layout, the output channel layout
+ * @param out_sample_format, the output sample format
+ * @param out_sample_rate, the output sample rate
+ * @param in_channel_layout, the input channel layout
+ * @param in_sample_format, the input sample format
+ * @param in_sample_rate, the input sample rate
+ */
 FFmpeg_Frame_Resampler::FFmpeg_Frame_Resampler(int64_t out_channel_layout,
                        enum AVSampleFormat out_sample_format, 
                        int out_sample_rate,
@@ -49,6 +56,12 @@ FFmpeg_Frame_Resampler::FFmpeg_Frame_Resampler(int64_t out_channel_layout,
     m_frame = nullptr;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler Destructor
+ * @desc Frees m_swr_ctx if allocated, and unreferences and frees m_frame if allocated
+ */
 FFmpeg_Frame_Resampler::~FFmpeg_Frame_Resampler()
 {
     if(m_swr_ctx)
@@ -63,6 +76,13 @@ FFmpeg_Frame_Resampler::~FFmpeg_Frame_Resampler()
     }
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::init() function
+ * @desc initializes the resampler context, must be called before any resampling is done
+ * @return Return_Status::STATUS_SUCCESS on success, Return_Status::STATUS_FAILURE on failure
+ */
 Return_Status FFmpeg_Frame_Resampler::init()
 {
     int error = 0;
@@ -102,6 +122,21 @@ Return_Status FFmpeg_Frame_Resampler::init()
     return STATUS_SUCCESS;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::reset_options() function
+ * @desc resets all m_in* and m_out* variables with the ones passed, and re initializes the resampling context
+ * @note if this is called after FFmpeg_Frame_Resampler::init() you don't need to call FFmpeg_Frame_Resampler::init() again,
+ * @note as the function reinitializes the context automaticlly.
+ * @param out_channel_layout, the output channel layout
+ * @param out_sample_format, the output sample format
+ * @param out_sample_rate, the output sample rate
+ * @param in_channel_layout, the input channel layout
+ * @param in_sample_format, the input sample format
+ * @param in_sample_rate, the input sample rate
+ * @return Return_Status::STATUS_SUCCESS on success, Return_Status::STATUS_FAILURE on failure
+ */
 Return_Status FFmpeg_Frame_Resampler::reset_options(int64_t out_channel_layout,
                                                     enum AVSampleFormat out_sample_format, 
                                                     int out_sample_rate, 
@@ -179,6 +214,16 @@ Return_Status FFmpeg_Frame_Resampler::reset_options(int64_t out_channel_layout,
     return STATUS_SUCCESS;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::reset_channel_layout() function
+ * @desc resets either input channel layout or output channel layout
+ * @param out, a boolean to determine wheather to change the output channel layout or input channel layout, true for output, false for input
+ * @param new_channel_layout, the new channel layout
+ * @note If called after FFmpeg_Frame_Resampler::init() it is not needed to reinitilze as the function does so automatically.
+ * @return Return_Status::STATUS_SUCCESS on success, Return_Status::STATUS_FAILURE on failure
+ */
 Return_Status FFmpeg_Frame_Resampler::reset_channel_layout(bool out, int64_t new_channel_layout)
 {
     if(out)
@@ -228,6 +273,16 @@ Return_Status FFmpeg_Frame_Resampler::reset_channel_layout(bool out, int64_t new
     return STATUS_SUCCESS;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::reset_sample_format() function
+ * @desc resets the input or output sample format
+ * @param out, a boolean to determine wheather to change the output or input, true for output, false for input
+ * @param new_sample_format, the new sample format
+ * @note If called after FFmpeg_Frame_Resampler::init() it is not needed to reinitilze as the function does so automatically.
+ * @return Return_Status::STATUS_SUCCESS on success, Return_Status::STATUS_FAILURE on failure
+ */
 Return_Status FFmpeg_Frame_Resampler::reset_sample_format(bool out, enum AVSampleFormat new_sample_format)
 {
     if(out)
@@ -277,6 +332,16 @@ Return_Status FFmpeg_Frame_Resampler::reset_sample_format(bool out, enum AVSampl
     return STATUS_SUCCESS;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::reset_sample_rate() function
+ * @desc resets the input or output sample rate
+ * @param out, a boolean to determine wheather to change the output or input, true for output, false for input
+ * @param new_sample_rate, the new sample rate
+ * @note If called after FFmpeg_Frame_Resampler::init() it is not needed to reinitilze as the function does so automatically.
+ * @return Return_Status::STATUS_SUCCESS on success, Return_Status::STATUS_FAILURE on failure
+ */
 Return_Status FFmpeg_Frame_Resampler::reset_sample_rate(bool out, int new_sample_rate)
 {
     if(out)
@@ -326,6 +391,16 @@ Return_Status FFmpeg_Frame_Resampler::reset_sample_rate(bool out, int new_sample
     return STATUS_SUCCESS;
 }
 
+
+
+
+/* FFmepg_Frame_Resampler::resample_frame() function
+ * @desc resamples a decoded audio frame to the set output options
+ * @param source_frame, AVFrame* that holds decoded audio data
+ * @return valid AVFrame* on success, nullptr on failure
+ * @note the returned AVFrame* points to the same data as m_frame, and when this function is called again,
+ * @note the previously returned pointer will be invalid.
+ */
 AVFrame *FFmpeg_Frame_Resampler::resample_frame(AVFrame *source_frame)
 {
     if(!m_frame || !m_swr_ctx)
@@ -353,6 +428,13 @@ AVFrame *FFmpeg_Frame_Resampler::resample_frame(AVFrame *source_frame)
     return m_frame;
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::poll_error() function
+ * @desc polls an error message from m_errors and returns it
+ * @return std::string error message, the string will be empty if there are no messages.
+ */
 std::string FFmpeg_Frame_Resampler::poll_error()
 {
     if(!m_errors.empty())
@@ -365,11 +447,27 @@ std::string FFmpeg_Frame_Resampler::poll_error()
     return std::string{};
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::enqueue_error() function
+ * @desc enqueues an std::string error onto m_errors
+ * @param error, the std::string error message to enqueue onto m_errors
+ * @note this function is under the private modifier
+ */
 void FFmpeg_Frame_Resampler::enqueue_error(const std::string &error)
 {
     m_errors.push(error);
 }
 
+
+
+
+/* FFmpeg_Frame_Resampler::enqueue_error() function
+ * @desc enqueues an ffmpeg error message for the given error code onto m_errors
+ * @param error_code - The error code to translate to an error message
+ * @note this function is under the private modifier
+ */
 void FFmpeg_Frame_Resampler::enqueue_error(int error_code)
 {
     char buff[256];

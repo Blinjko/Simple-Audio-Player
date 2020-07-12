@@ -37,6 +37,18 @@ enum Return_Status
 };
 #endif
 
+/* FFmpeg_Frame_Resampler Class, resamples AVFrames into a given format
+ * @note This Class only works with audio
+ * @member m_swr_ctx, struct SwrContext* that is used for libswresample resampling functions
+ * @member m_frame, AVFrame* used to hold resampled audio AVFrame
+ * @member m_out_channel_layout, the output channel layout
+ * @member m_out_sample_format, the output sample format EX: 16 bit native endian
+ * @member m_sample_rate, the output sample rate EX: 48000 Hz
+ * @member m_in_channel_layout, the input channel layout
+ * @member m_in_sample_format, the input sample format
+ * @member m_in_sample_rate the input sample rate
+ * @member m_errors, a std::queue<std::string> that holds error messages
+ */
 class FFmpeg_Frame_Resampler
 {
     struct SwrContext *m_swr_ctx;
