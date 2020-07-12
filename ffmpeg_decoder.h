@@ -39,6 +39,18 @@ enum Return_Status
 
 // SEE "ffmpeg_decoder.cpp" for comments on functions //
 
+/* FFmpeg_Decoder Class
+ * @member m_fmt_ctx, AVFormatContext* holds information about the opened file
+ * @member m_codec_ctx, AVCodecContext* holds codec information for the decoder
+ * @member m_stream_number, the stream number in AVFormatContext::streams[] that is being decoded
+ * @member m_packet, AVPacket* holds encoded data read from the opened file
+ * @member m_frame, AVFrame* holds decoded data and information about it
+ * @member m_media_type, enum AVMediaType to tell the program what media type is to be decoded
+ * @member m_end_of_file, a boolean that keeps note if the end of the file was reached.
+ * @member m_filename, std::string that holds the filename
+ * @member m_errors, std::queue<std::string>, a queue of std::strings holding error messages
+ * @note For information on class functions see "ffmpeg_decoder.cpp"
+ */
 class FFmpeg_Decoder
 {
     AVFormatContext *m_fmt_ctx;

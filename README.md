@@ -32,13 +32,9 @@ For a reference the header file locations on my computer are:
 
 # Usage #
 `./Player <input_file>`
-If the makefile is used the program will be named `Player`, otherwise use whatever you named it. `<input_file>` is the audio file you want to play, one is included
-in the repository called `Panda_Eyes-KIKO.webm`. NOTE: I do now own the song nor am I claiming to own the song contained within this file. The link to the song 
-can be found below. To run the song execute the following in the repository directory `./Player Panda_Eyes-KIKO.webm`. This should play the song to the default
-output device. To adjust volume install the `pulsemixer` program and adjust the stream volume, also in pulsemixer you can switch what audio device the program will
-output to.
+If the makefile is used the program will be named `Player`, otherwise use whatever you named it. `<input_file>` is the audio file you want to play, for supported formats see
+the Supported Formats section.
 
 # Sources #
-* The supplied song can be found: [Here](https://www.youtube.com/watch?v=BwR8LOWZ1hg)
 * [FFmpeg](https://ffmpeg.org)
 * [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/)
