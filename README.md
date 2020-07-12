@@ -8,6 +8,11 @@ required libraries and headers. Tried to keep the code simple for anyone looking
 * A C++ compiler
 * GNU Make, if you want to use the makefile
 
+# Installing Dependicies #
+For Debian: `apt install git g++ make libavcodec-dev libavformat-dev libavutil-dev libswresample-dev libpulse-dev`
+For Arch: TODO
+For Fedora: TODO
+
 # Building #
 Before you start building make sure all the requirements stated above are met. Firstly clone the repository using `git clone`, then execute `make`, then 
 `make clean`. This will compile and link the program, making a executable program in the working directory called `Player`. There are some reasons why the program 
