@@ -323,6 +323,14 @@ AVFrame *FFmpeg_Decoder::decode_frame()
         return nullptr;
     }
 
+    // check if frame channel layout is 0
+    // if it is we have to set it apropriately
+    // or there will be problems hard to decipher down the line
+    if(m_frame->channel_layout == 0)
+    {
+        m_frame->channel_layout = av_get_default_channel_layout(m_frame->channels);
+    }
+
     return m_frame;
 }
 

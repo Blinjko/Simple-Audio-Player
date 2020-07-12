@@ -31,7 +31,7 @@ For a reference the header file locations on my computer are:
 * `/usr/include/` For C++ standard libary headers
 
 # Supported Formats #
-m4a, mp3, aac, flac, m4b, ogg, oga, opus, ra, rm, tta, webm.
+m4a, mp3, aac, flac, m4b, ogg, oga, opus, ra, rm, tta, webm, au, wav, mkv, avi
 
 # Usage #
 `./Player <input_file>`
